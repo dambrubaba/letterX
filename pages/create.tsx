@@ -30,29 +30,60 @@ export default function CreateNewsletter() {
   if (!user) router.push("/");
 
   return (
-    <div className="container">
-      <h1>Create Newsletter</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Newsletter Title"
-          required
-        />
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Newsletter Description"
-          required
-        />
-        <textarea
-          value={sampleIssue}
-          onChange={(e) => setSampleIssue(e.target.value)}
-          placeholder="Sample Issue"
-          required
-        />
-        <button type="submit">Create Newsletter</button>
+    <div className="container mx-auto px-4 max-w-2xl">
+      <h1 className="text-4xl font-bold mb-8">Create Newsletter</h1>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label htmlFor="title" className="block text-sm font-medium mb-2">
+            Newsletter Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light dark:bg-gray-700 dark:border-gray-600"
+            required
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium mb-2"
+          >
+            Newsletter Description
+          </label>
+          <textarea
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light dark:bg-gray-700 dark:border-gray-600"
+            rows={4}
+            required
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="sampleIssue"
+            className="block text-sm font-medium mb-2"
+          >
+            Sample Issue
+          </label>
+          <textarea
+            id="sampleIssue"
+            value={sampleIssue}
+            onChange={(e) => setSampleIssue(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light dark:bg-gray-700 dark:border-gray-600"
+            rows={8}
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-primary-light hover:bg-primary-dark text-white font-bold py-2 px-4 rounded transition duration-300"
+        >
+          Create Newsletter
+        </button>
       </form>
     </div>
   );

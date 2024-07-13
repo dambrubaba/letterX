@@ -2,43 +2,41 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Newsletter } from "../types";
+import NewsletterCard from "../components/NewsletterCard";
+import Pagination from "../components/Pagination";
 
 export default function Home() {
   const { user, isLoading } = useUser();
   const [newsletters, setNewsletters] = useState<Newsletter[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetch("/api/newsletters")
-      .then((res) => res.json())
-      .then((data) => setNewsletters(data));
-  }, []);
+    fetchNewsletters(currentPage);
+  }, [currentPage]);
+
+  const fetchNewsletters = async (page: number) => {
+    const res = await fetch(`/api/newsletters?page=${page}&limit=10`);
+    const data = await res.json();
+    setNewsletters(data.newsletters);
+    setTotalPages(data.totalPages);
+  };
 
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div className="container">
-      <h1>Newsletter Platform</h1>
-      {user ? (
-        <>
-          <p>Welcome, {user.name}!</p>
-          <Link href="/api/auth/logout">Logout</Link>
-          <Link href="/create">Create Newsletter</Link>
-        </>
-      ) : (
-        <Link href="/api/auth/login">Login</Link>
-      )}
-      <h2>Featured Newsletters</h2>
-      <ul>
+    <div className="container mx-auto px-4">
+      <h1 className="text-4xl font-bold mb-8">Featured Newsletters</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {newsletters.map((newsletter) => (
-          <li key={newsletter._id}>
-            <h3>{newsletter.title}</h3>
-            <p>{newsletter.description}</p>
-            <button onClick={() => handleSubscribe(newsletter._id)}>
-              Subscribe
-            </button>
-          </li>
+          <NewsletterCard key={newsletter._id} newsletter={newsletter} />
         ))}
-      </ul>
+      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 }
