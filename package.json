@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^2.2.1",
+    "@auth0/nextjs-auth0": "^2.7.0",
     "@headlessui/react": "^1.7.19",
     "@heroicons/react": "^2.1.5",
     "mongoose": "^6.9.1",
